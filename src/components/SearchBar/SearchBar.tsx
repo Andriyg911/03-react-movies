@@ -8,9 +8,10 @@ interface SearchBarProps {
 export default function SearchBar({ onSubmit }: SearchBarProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
-  async function handleAction(formData: FormData) {
-    const query = formData.get('query')?.toString().trim();
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
 
+    const query = inputRef.current?.value.trim();
     if (!query) {
       toast.error('Введіть запит для пошуку');
       return;
@@ -22,7 +23,7 @@ export default function SearchBar({ onSubmit }: SearchBarProps) {
   }
 
   return (
-    <form action={handleAction}>
+    <form onSubmit={handleSubmit}>
       <input
         type="text"
         name="query"
